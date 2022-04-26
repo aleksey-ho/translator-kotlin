@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3DDC84</color>
+    <color name="colorPrimaryDark">#37B670</color>
+
+    <color name="colorListViewTextSeparator">#C0C0C0</color>
+    <color name="textInputPanelIcons">#808080</color>
+    <color name="textInputPanelBorder">#D3D3D3</color>
+
+    <color name="iconFavoriteDark">#A9A9A9</color>
+    <color name="iconFavoriteLight">@color/colorPrimary</color>
+</resources>

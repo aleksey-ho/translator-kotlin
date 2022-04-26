@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+                name="viewModel"
+                type="com.example.translator_kotlin.presentation.dialog.IDialogViewModel" />
+
+        <variable
+                name="uiConfig"
+                type="com.example.translator_kotlin.presentation.dialog.DialogUiConfig" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+        <TextView
+                android:id="@+id/title"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{uiConfig.title}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/error_title" />
+
+        <TextView
+                android:id="@+id/message"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{uiConfig.message}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="@string/error_default" />
+
+        <Button
+                android:id="@+id/positiveButton"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{uiConfig.positiveButtonText ?? ""}'
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/message"
+                android:visibility="@{uiConfig.positiveButtonText == null ? View.GONE : View.VISIBLE}"
+                app:onClick="@{viewModel::onPositiveButtonClick}"
+                tools:text="@string/ok" />
+
+        <Button
+                android:id="@+id/negativeButton"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{uiConfig.negativeButtonText ?? ""}'
+                app:layout_constraintEnd_toStartOf="@id/positiveButton"
+                app:layout_constraintTop_toBottomOf="@id/message"
+                app:onClick="@{viewModel::onNegativeButtonClick}"
+                android:visibility="@{uiConfig.negativeButtonText == null ? View.GONE : View.VISIBLE}"
+                tools:text="@string/cancel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

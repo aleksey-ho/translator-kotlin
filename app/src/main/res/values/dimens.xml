@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_translate">18sp</dimen>
+    <dimen name="text_language_selector">18sp</dimen>
+</resources>

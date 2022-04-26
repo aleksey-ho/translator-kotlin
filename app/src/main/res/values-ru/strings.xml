@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Переводчик</string>
+    <string name="yes">Да</string>
+    <string name="ok">Ок</string>
+    <string name="cancel">Отмена</string>
+    <string name="not_implemented">Не реализовано</string>
+    <string name="hint_enter_text">Введите текст</string>
+
+    <string name="view_pager_history">История</string>
+    <string name="view_pager_favorites">Избранное</string>
+    <string name="settings_tab">Настройки</string>
+
+    <string name="history_empty">Нет переводов в\nистории</string>
+    <string name="favorites_empty">Нет переводов в\nизбранном</string>
+
+    <string name="recently_used">Недавно использованные</string>
+    <string name="all_languages">Все языки</string>
+    <string name="language_source">Язык текста</string>
+    <string name="language_target">Язык перевода</string>
+
+    <string name="delete_history_question">Очистить историю?</string>
+    <string name="delete_favorites_question">Очистить избранное?</string>
+
+    <string name="error_title">Ошибка</string>
+    <string name="error_default">Извините, сервис временно недоступен</string>
+
+    <string name="error_internet_connection">Ошибка соединения</string>
+    <string name="error_check_internet">Проверьте подключение к\nИнтернету и повторите попытку</string>
+    <string name="error_button_try_again">Повторить</string>
+
+    <string name="switch1">Разные</string>
+    <string name="switch2">Переключатели</string>
+    <string name="switch3">Щёлк-щёлк</string>
+
+    <string name="init_langs_title">Внимание!</string>
+    <string name="init_langs_description">Сейчас начнется загрузка языковых моделей ML Kit (Английский, Русский). Модели имеют размер около 30 МБ, убедитесь, что вы используете Wi-Fi, для экономии трафика. При выборе другого языка перевода языковая модель будет также загружена.</string>
+    <string name="download_in_progress_error">Подождите, языковая модель загружается...</string>
+
+    <string name="google_ml_title">Переведено с помощью</string>
+    <string name="google_ml">Google ML Kit</string>
+
+</resources>

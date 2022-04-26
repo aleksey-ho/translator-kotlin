@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Translator</string>
+    <string name="yes">Yes</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="not_implemented">Not implemented</string>
+    <string name="hint_enter_text">Enter text</string>
+
+    <string name="view_pager_history">History</string>
+    <string name="view_pager_favorites">Favorites</string>
+    <string name="settings_tab">Settings</string>
+
+    <string name="history_empty">No translations\nin history</string>
+    <string name="favorites_empty">No translations\nin favorites</string>
+
+    <string name="recently_used">Recently used</string>
+    <string name="all_languages">All languages</string>
+    <string name="language_source">Source language</string>
+    <string name="language_target">Target language</string>
+
+    <string name="delete_history_question">Clear history?</string>
+    <string name="delete_favorites_question">Clear favorites?</string>
+
+    <string name="error_title">Error</string>
+    <string name="error_default">Sorry, the service is temporarily unavailable</string>
+    <string name="error_internet_connection">Connection error</string>
+    <string name="error_check_internet">Please check your internet\nconnection and try again</string>
+    <string name="error_button_try_again">Try again</string>
+
+    <string name="switch1">Various</string>
+    <string name="switch2">Switches</string>
+    <string name="switch3">Click click</string>
+
+    <string name="init_langs_title">Attention!</string>
+    <string name="init_langs_description">ML Kit language models (English, Russian) will be downloaded now. The models are about 30MB size, make sure you use Wi-Fi to save data. When you select a different language, the language model will also be downloaded.</string>
+    <string name="download_in_progress_error">Please wait, language model is loading...</string>
+
+    <string name="google_ml_title">Translated with</string>
+    <string name="google_ml">Google ML Kit</string>
+
+</resources>
