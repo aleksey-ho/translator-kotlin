@@ -12,3 +12,5 @@ A simple text translation app based on the Google ML Kit created for research pu
 [**Google ML Kit**](https://developers.google.com/ml-kit/language/translation),
 [Kotlin coroutines](https://developer.android.com/kotlin/coroutines),
 [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+
+<img src="https://github.com/aleksey-ho/translator-kotlin/blob/master/app.gif" height="400" />
