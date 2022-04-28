@@ -37,7 +37,7 @@ class GetTranslatesUseCase @Inject constructor(
         return repository.removeFromFavorites(translate)
     }
 
-    suspend fun getTranslate(langSource: Language, langTarget: Language, text: String?): Translate {
+    suspend fun getTranslate(langSource: Language, langTarget: Language, text: String): Translate {
         return repository.getTranslate(langSource, langTarget, text)
     }
 

@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.translator_kotlin.R
 import com.example.translator_kotlin.domain.model.Translate
+import java.util.*
 
 
 class BookmarkRecyclerAdapter(
@@ -26,7 +27,6 @@ class BookmarkRecyclerAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        // TODO: 19/03/2019
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_history, parent, false)
@@ -66,8 +66,8 @@ class BookmarkRecyclerAdapter(
                 if (translate.savedInFavorites) R.drawable.ic_favorite_light else R.drawable.ic_favorite_dark
             imageFavorite.background = ContextCompat.getDrawable(context, retValue)
 
-            textViewLanguageSourceCode.text = translate.languageSource!!.code.toUpperCase()
-            textViewLanguageTargetCode.text = translate.languageTarget!!.code.toUpperCase()
+            textViewLanguageSourceCode.text = translate.languageSource.code.uppercase(Locale.getDefault())
+            textViewLanguageTargetCode.text = translate.languageTarget.code.uppercase(Locale.getDefault())
 
             imageFavorite.setOnClickListener {
                 if (translate.savedInFavorites)

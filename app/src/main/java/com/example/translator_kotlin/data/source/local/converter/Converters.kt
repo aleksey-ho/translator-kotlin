@@ -15,7 +15,6 @@
  */
 package com.example.translator_kotlin.data.source.local.converter
 
-import android.text.TextUtils
 import androidx.room.TypeConverter
 import java.util.*
 
@@ -31,17 +30,4 @@ object Converters {
         return date?.time
     }
 
-    @TypeConverter
-    fun fromList(strings: List<String?>?): String {
-        return TextUtils.join("###", strings!!)
-    }
-
-    @TypeConverter
-    fun toList(data: String?): List<String> {
-        return if (data == null) {
-            ArrayList()
-        } else listOf(
-            *(data.split("###")).toTypedArray()
-        )
-    }
 }

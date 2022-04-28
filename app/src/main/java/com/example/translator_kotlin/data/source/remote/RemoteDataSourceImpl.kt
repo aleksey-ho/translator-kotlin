@@ -100,7 +100,8 @@ class RemoteDataSourceImpl : RemoteDataSource {
     // Starts downloading a remote model for local translation.
     override suspend fun downloadLanguageModel(language: Language) {
         languageModelIsDownloading = true
-        val model = getModel(TranslateLanguage.fromLanguageTag(language.code)!!)
+        val languageCode = TranslateLanguage.fromLanguageTag(language.code) ?: return
+        val model = getModel(languageCode)
         withContext(Dispatchers.IO) {
             modelManager.download(model, DownloadConditions.Builder().build()).await()
         }

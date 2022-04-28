@@ -26,7 +26,7 @@ class RepositoryImpl(
     override suspend fun getTranslate(
         langSource: Language,
         langTarget: Language,
-        text: String?
+        text: String
     ): Translate {
         val item = cachedTranslates.firstOrNull {
             it.textSource == text && langSource == it.languageSource && langTarget == it.languageTarget
@@ -35,7 +35,7 @@ class RepositoryImpl(
             return cachedTranslates[cachedTranslates.indexOf(item)]
         } else {
             val translate = withContext(Dispatchers.IO) {
-                remoteDataSource.getTranslate(langSource, langTarget, text!!)
+                remoteDataSource.getTranslate(langSource, langTarget, text)
             }
             cachedTranslates.add(translate)
             return translate

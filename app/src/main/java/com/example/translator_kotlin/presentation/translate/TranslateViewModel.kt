@@ -89,17 +89,17 @@ class TranslateViewModel @Inject constructor(
     }
 
     fun swapLanguages() {
-        val tempLanguageSource = _languageSource.value!!
+        val tempLanguageSource = _languageSource.value
         _languageSource.value = _languageTarget.value
-        _languageTarget.value = tempLanguageSource
+        tempLanguageSource?.let { _languageTarget.value = it }
         viewModelScope.launch {
             try {
                 getLanguagesUseCase.updateLanguageUsage(
-                    _languageSource.value!!,
+                    _languageSource.value ?: return@launch,
                     LangDirection.SOURCE
                 )
                 getLanguagesUseCase.updateLanguageUsage(
-                    _languageTarget.value!!,
+                    _languageTarget.value ?: return@launch,
                     LangDirection.TARGET
                 )
                 translateText(textSource.value)
@@ -114,13 +114,13 @@ class TranslateViewModel @Inject constructor(
             clearTranslate()
             return
         }
-        textSource.value = text!!
+        textSource.value = text ?: return
         viewModelScope.launch {
             try {
                 val translate = getTranslatesUseCase.getTranslate(
-                    _languageSource.value!!,
-                    _languageTarget.value!!,
-                    textSource.value
+                    _languageSource.value ?: return@launch,
+                    _languageTarget.value ?: return@launch,
+                    textSource.value ?: return@launch,
                 )
                 internetConnectionError.postValue(false)
                 setTranslate(translate.textTarget)
@@ -170,8 +170,8 @@ class TranslateViewModel @Inject constructor(
                 getTranslatesUseCase.addTranslate(
                     textSource,
                     translate,
-                    _languageSource.value!!,
-                    _languageTarget.value!!
+                    _languageSource.value ?: return@launch,
+                    _languageTarget.value ?: return@launch,
                 )
             } catch (throwable: Throwable) {
                 throwable.printStackTrace()

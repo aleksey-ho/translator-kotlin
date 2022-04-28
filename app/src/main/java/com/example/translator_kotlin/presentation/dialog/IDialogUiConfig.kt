@@ -1,8 +1,6 @@
 package com.example.translator_kotlin.presentation.dialog
 
-import android.os.Parcelable
-
-interface IDialogUiConfig : Parcelable {
+interface IDialogUiConfig {
 
     val title: String
 

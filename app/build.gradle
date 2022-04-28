@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
 
 android {
     compileSdkVersion 32
@@ -39,7 +38,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1"
 
     implementation "com.google.android.material:material:1.5.0"
-    implementation "androidx.core:core-ktx:1.8.0-alpha02"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.activity:activity-ktx:1.4.0"
     implementation "androidx.fragment:fragment-ktx:1.4.1"

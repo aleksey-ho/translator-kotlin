@@ -51,12 +51,8 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadLanguages()
-        if (savedInstanceState != null) {
-            val textSource = savedInstanceState.getString(TEXT_SOURCE)
-            viewModel.setSourceText(textSource!!)
-            val translate = savedInstanceState.getString(TEXT_TRANSLATE)
-            viewModel.setTranslate(translate!!)
-        }
+        savedInstanceState?.getString(TEXT_SOURCE)?.let { viewModel.setSourceText(it) }
+        savedInstanceState?.getString(TEXT_TRANSLATE)?.let { viewModel.setTranslate(it) }
         binding.textViewLangSource.setOnClickListener {
             requireContext().startActivity(
                 LangSelectionActivity.newIntent(requireContext(), LangDirection.SOURCE)
@@ -119,8 +115,6 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
             }
         })
 
-        // TODO: test this
-        //make it scrollable
         binding.textViewTranslate.movementMethod = ScrollingMovementMethod()
     }
 

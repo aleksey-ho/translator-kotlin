@@ -24,7 +24,7 @@ interface Repository {
 
     val favoriteTranslates: Flow<List<Translate>>
 
-    suspend fun getTranslate(langSource: Language, langTarget: Language, text: String?): Translate
+    suspend fun getTranslate(langSource: Language, langTarget: Language, text: String): Translate
 
     suspend fun loadLanguages()
 
