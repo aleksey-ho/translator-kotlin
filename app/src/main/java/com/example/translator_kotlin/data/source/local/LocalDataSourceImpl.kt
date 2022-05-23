@@ -81,9 +81,7 @@ class LocalDataSourceImpl internal constructor(
     override suspend fun updateLanguages(list: List<String>) {
         for (code in list) {
             var language = languageDao.getLanguage(code)
-            if (language != null) {
-                languageDao.update(language)
-            } else {
+            if (language == null) {
                 language = LanguageEntity(code)
                 languageDao.insertLanguage(language)
             }

@@ -5,8 +5,6 @@ import com.example.translator_kotlin.domain.model.Translate
 
 interface RemoteDataSource {
 
-    val languageModelIsDownloading : Boolean
-
     fun loadRemoteLanguages(): List<String>
 
     suspend fun getTranslate(langSource: Language, langTarget: Language, text: String): Translate

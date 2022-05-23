@@ -19,7 +19,7 @@ class RemoteDataSourceImpl : RemoteDataSource {
 
     private val modelManager: RemoteModelManager = RemoteModelManager.getInstance()
     private val availableModels = MutableLiveData<List<String>>()
-    override var languageModelIsDownloading = false
+    private var languageModelIsDownloading = false
 
     private val translators =
         object : LruCache<TranslatorOptions, Translator>(NUM_TRANSLATORS) {
@@ -47,7 +47,7 @@ class RemoteDataSourceImpl : RemoteDataSource {
         }
         if (text.isEmpty()) {
             return Translate(
-                id = text,
+                id = "",
                 languageSource = langSource,
                 languageTarget = langTarget,
                 date = Calendar.getInstance().time,

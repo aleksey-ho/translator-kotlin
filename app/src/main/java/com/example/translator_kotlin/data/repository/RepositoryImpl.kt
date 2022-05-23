@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class RepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
@@ -34,9 +33,7 @@ class RepositoryImpl(
         if (item != null) {
             return cachedTranslates[cachedTranslates.indexOf(item)]
         } else {
-            val translate = withContext(Dispatchers.IO) {
-                remoteDataSource.getTranslate(langSource, langTarget, text)
-            }
+            val translate = remoteDataSource.getTranslate(langSource, langTarget, text)
             cachedTranslates.add(translate)
             return translate
         }
