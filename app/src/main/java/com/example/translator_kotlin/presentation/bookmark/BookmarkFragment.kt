@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.translator_kotlin.R
 import com.example.translator_kotlin.databinding.FragmentBookmarkBinding
 import com.example.translator_kotlin.presentation.base.BaseFragment
+import com.example.translator_kotlin.presentation.dialog.Dialog
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,16 +21,6 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     private val viewModel: BookmarkViewModel by activityViewModels()
 
     private lateinit var adapter: BookmarkViewPageAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val root = super.onCreateView(inflater, container, savedInstanceState)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        return root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,8 +42,18 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     }
 
     private fun clearBookmarks() {
-        val currentItem = binding.viewPager.currentItem
-        viewModel.clear(currentItem == 0)
+        val clearHistory = binding.viewPager.currentItem == 0
+        Dialog().showClearHistoryDialog(
+            requireActivity(),
+            clearHistory,
+            onButtonClick = {
+                if (clearHistory) {
+                    viewModel.clearHistory()
+                } else {
+                    viewModel.clearFavorites()
+                }
+            }
+        )
     }
 
     companion object {

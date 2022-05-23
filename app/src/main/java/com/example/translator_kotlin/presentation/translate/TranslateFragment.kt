@@ -20,9 +20,12 @@ import com.example.translator_kotlin.databinding.TextInputPanelBinding
 import com.example.translator_kotlin.domain.model.Language
 import com.example.translator_kotlin.domain.model.Translate
 import com.example.translator_kotlin.presentation.base.BaseFragment
+import com.example.translator_kotlin.presentation.dialog.Dialog
 import com.example.translator_kotlin.presentation.langSelector.LangSelectionActivity
 import com.example.translator_kotlin.presentation.langSelector.LangSelectionListenerModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
@@ -39,12 +42,7 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
         savedInstanceState: Bundle?
     ): View? {
         val root = super.onCreateView(inflater, container, savedInstanceState)
-        LangSelectionListenerModel.getInstance().setListener(this)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
         textInputPanelBinding = binding.textInputPanel
-        textInputPanelBinding.viewModel = viewModel
-        textInputPanelBinding.lifecycleOwner = this.viewLifecycleOwner
         return root
     }
 
@@ -116,6 +114,33 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
         })
 
         binding.textViewTranslate.movementMethod = ScrollingMovementMethod()
+
+        viewModel.viewModelScope.launch(Dispatchers.Main) {
+            viewModel.showErrorDialog.collect { showErrorDialog ->
+                showErrorDialog?.let {
+                    showErrorDialog(it)
+                }
+            }
+        }
+        viewModel.textSource.observe(viewLifecycleOwner) {
+            textInputPanelBinding.editTextToTranslate.setText(it)
+        }
+        viewModel.translate.observe(viewLifecycleOwner) {
+            binding.textViewTranslate.text = it
+        }
+        viewModel.internetConnectionError.observe(viewLifecycleOwner) {
+            binding.internetConnectionError.visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
+        viewModel.languageSource.observe(viewLifecycleOwner) {
+            binding.textViewLangSource.text = it.name
+        }
+        viewModel.languageTarget.observe(viewLifecycleOwner) {
+            binding.textViewLangTarget.text = it.name
+        }
     }
 
     override fun langSelected(language: Language, direction: LangDirection) {
@@ -145,6 +170,10 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
         )
         savedInstanceState.putString(TEXT_TRANSLATE, binding.textViewTranslate.text.toString())
         super.onSaveInstanceState(savedInstanceState)
+    }
+
+    private fun showErrorDialog(error: Throwable) {
+        Dialog().showErrorDialog(requireActivity())
     }
 
     companion object {

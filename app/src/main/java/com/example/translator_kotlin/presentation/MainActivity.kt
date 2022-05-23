@@ -12,6 +12,7 @@ import com.example.translator_kotlin.R
 import com.example.translator_kotlin.databinding.ActivityMainBinding
 import com.example.translator_kotlin.domain.model.Translate
 import com.example.translator_kotlin.presentation.base.BaseActivity
+import com.example.translator_kotlin.presentation.dialog.Dialog
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,9 +25,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), MainListenerModule.Mai
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.viewModel = mainViewModel
-        binding.lifecycleOwner = this
-        MainListenerModule.getInstance().setListener(this)
         supportActionBar?.hide()
         adapter = MainViewPageAdapter(this)
 

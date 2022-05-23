@@ -1,157 +1,131 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-                name="viewModel"
-                type="com.example.translator_kotlin.presentation.translate.TranslateViewModel" />
-    </data>
-
-    <RelativeLayout
+    <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/parent_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
         <LinearLayout
-                android:orientation="vertical"
-                android:id="@+id/parent_view"
+                android:orientation="horizontal"
+                android:id="@+id/languageSelectorToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:descendantFocusability="beforeDescendants"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp">
 
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:id="@+id/languageSelectorToolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp">
-
-                <TextView
-                        android:id="@+id/textViewLangSource"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:textSize="@dimen/text_language_selector"
-                        android:text="@={viewModel.languageSource.name}" />
-
-                <ImageButton
-                        android:id="@+id/buttonSwap"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="center"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/ic_compare_arrows_black_24dp" />
-
-                <TextView
-                        android:id="@+id/textViewLangTarget"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textSize="@dimen/text_language_selector"
-                        android:text="@={viewModel.languageTarget.name}" />
-            </LinearLayout>
-
-            <!--input panel-->
-            <include
-                    layout="@layout/text_input_panel"
-                    android:id="@+id/textInputPanel" />
-            <!--/input panel-->
-
-            <!--internet connection error-->
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/internetConnectionError"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp"
-                    android:visibility="@{viewModel.internetConnectionError ? View.VISIBLE : View.GONE}">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/text_language_selector"
-                        android:text="@string/error_internet_connection" />
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:textAlignment="center"
-                        android:text="@string/error_check_internet" />
-
-                <Button
-                        android:id="@+id/buttonTryAgain"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:text="@string/error_button_try_again" />
-            </LinearLayout>
-            <!--/internet connection error-->
-
-            <!--translate-->
             <TextView
-                    android:id="@+id/textViewTranslate"
-                    android:layout_width="match_parent"
+                    android:id="@+id/textViewLangSource"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginEnd="18dp"
-                    android:text="@={viewModel.translate}"
-                    android:textSize="@dimen/text_translate"
-                    android:scrollbars="vertical" />
-            <!--/translate-->
+                    android:gravity="end"
+                    android:textSize="@dimen/text_language_selector" />
+
+            <ImageButton
+                    android:id="@+id/buttonSwap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/ic_compare_arrows_black_24dp" />
+
+            <TextView
+                    android:id="@+id/textViewLangTarget"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_language_selector" />
 
         </LinearLayout>
 
-        <TextView
-                android:id="@+id/textViewLink"
-                android:layout_alignParentBottom="true"
+        <!--input panel-->
+        <include
+                layout="@layout/text_input_panel"
+                android:id="@+id/textInputPanel" />
+        <!--/input panel-->
+
+        <!--internet connection error-->
+        <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/internetConnectionError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/google_ml"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:textSize="16sp"
-                android:gravity="end" />
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:visibility="gone"
+                tools:visibility="visible">
 
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/text_language_selector"
+                    android:text="@string/error_internet_connection" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:text="@string/error_check_internet" />
+
+            <Button
+                    android:id="@+id/buttonTryAgain"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/error_button_try_again" />
+        </LinearLayout>
+        <!--/internet connection error-->
+
+        <!--translate-->
         <TextView
-                android:layout_above="@id/textViewLink"
+                android:id="@+id/textViewTranslate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/google_ml_title"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="18dp"
-                android:textSize="16sp"
-                android:gravity="end" />
+                android:textSize="@dimen/text_translate"
+                android:scrollbars="vertical" />
+        <!--/translate-->
 
-        <com.example.translator_kotlin.presentation.dialog.DialogShowingView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:dialogConfig="@{viewModel.errorDialogConfig}"
-                app:dialogLayout="@layout/layout_dialog"
-                app:dialogStyle="@style/Theme.AppCompat.Dialog"
-                app:dialogViewModel="@{viewModel.errorDialogViewModel}"
-                app:visibleOrGone="@{viewModel.isDialogVisible}"
-                tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
-    </RelativeLayout>
+    <TextView
+            android:id="@+id/textViewLink"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/google_ml"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textSize="16sp"
+            android:gravity="end" />
 
-</layout>
+    <TextView
+            android:layout_above="@id/textViewLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/google_ml_title"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textSize="16sp"
+            android:gravity="end" />
+
+</RelativeLayout>

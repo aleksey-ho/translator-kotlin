@@ -1,6 +1,6 @@
 package com.example.translator_kotlin.presentation.translate
 
-import androidx.lifecycle.LiveData
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +11,12 @@ import com.example.translator_kotlin.domain.model.Language
 import com.example.translator_kotlin.domain.usecase.DownloadLanguageModelUseCase
 import com.example.translator_kotlin.domain.usecase.GetLanguagesUseCase
 import com.example.translator_kotlin.domain.usecase.GetTranslatesUseCase
-import com.example.translator_kotlin.presentation.dialog.DialogViewModel
-import com.example.translator_kotlin.presentation.dialog.STANDARD_DIALOG_CONFIG
 import com.example.translator_kotlin.utils.DownloadInProgressException
+import com.example.translator_kotlin.utils.ResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -24,48 +26,27 @@ class TranslateViewModel @Inject constructor(
     private var getTranslatesUseCase: GetTranslatesUseCase,
     private var getLanguagesUseCase: GetLanguagesUseCase,
     private var downloadLanguageModelUseCase: DownloadLanguageModelUseCase,
+    private val resourcesProvider: ResourcesProvider,
 ) : ViewModel() {
 
-    private val _languageSource = MutableLiveData<Language>()
-    val languageSource: LiveData<Language>
-        get() = _languageSource
+    private val _showErrorDialog: MutableStateFlow<Throwable?> = MutableStateFlow(null)
+    val showErrorDialog: StateFlow<Throwable?>
+        get() = _showErrorDialog
 
-    private val _languageTarget = MutableLiveData<Language>()
-    val languageTarget: LiveData<Language>
-        get() = _languageTarget
-
-    // Two-way databinding, exposing MutableLiveData
+    val languageSource = MutableLiveData<Language>()
+    val languageTarget = MutableLiveData<Language>()
     val textSource = MutableLiveData<String>()
     val translate = MutableLiveData<String>()
-
     val internetConnectionError = MutableLiveData<Boolean>(false)
-
-    val isDialogVisible = MutableLiveData<Boolean>(false)
-    var errorDialogConfig = STANDARD_DIALOG_CONFIG
-    val errorDialogViewModel = DialogViewModel(
-        positiveClick = {
-            hideErrorDialog()
-        },
-        negativeClick = {}
-    )
-
-    private fun showErrorDialog(ex: Throwable) {
-        errorDialogConfig.message = ex.localizedMessage
-        isDialogVisible.postValue(true)
-    }
-
-    private fun hideErrorDialog() {
-        isDialogVisible.postValue(false)
-    }
 
     fun loadLanguages() {
         viewModelScope.launch {
             try {
                 val recentlyUsedSourceLanguage = getLanguagesUseCase.getRecentlyUsedSourceLanguage()
-                _languageSource.postValue(recentlyUsedSourceLanguage)
+                languageSource.postValue(recentlyUsedSourceLanguage)
 
                 val recentlyUsedTargetLanguage = getLanguagesUseCase.getRecentlyUsedTargetLanguage()
-                _languageTarget.postValue(recentlyUsedTargetLanguage)
+                languageTarget.postValue(recentlyUsedTargetLanguage)
 
             } catch (throwable: Throwable) {
                 throwable.printStackTrace()
@@ -74,11 +55,11 @@ class TranslateViewModel @Inject constructor(
     }
 
     fun setLanguageSource(language: Language) {
-        _languageSource.value = language
+        languageSource.value = language
     }
 
     fun setLanguageTarget(language: Language) {
-        _languageTarget.value = language
+        languageTarget.value = language
     }
 
     /**
@@ -89,17 +70,17 @@ class TranslateViewModel @Inject constructor(
     }
 
     fun swapLanguages() {
-        val tempLanguageSource = _languageSource.value
-        _languageSource.value = _languageTarget.value
-        tempLanguageSource?.let { _languageTarget.value = it }
+        val tempLanguageSource = languageSource.value
+        languageSource.value = languageTarget.value
+        tempLanguageSource?.let { languageTarget.value = it }
         viewModelScope.launch {
             try {
                 getLanguagesUseCase.updateLanguageUsage(
-                    _languageSource.value ?: return@launch,
+                    languageSource.value ?: return@launch,
                     LangDirection.SOURCE
                 )
                 getLanguagesUseCase.updateLanguageUsage(
-                    _languageTarget.value ?: return@launch,
+                    languageTarget.value ?: return@launch,
                     LangDirection.TARGET
                 )
                 translateText(textSource.value)
@@ -118,8 +99,8 @@ class TranslateViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val translate = getTranslatesUseCase.getTranslate(
-                    _languageSource.value ?: return@launch,
-                    _languageTarget.value ?: return@launch,
+                    languageSource.value ?: return@launch,
+                    languageTarget.value ?: return@launch,
                     textSource.value ?: return@launch,
                 )
                 internetConnectionError.postValue(false)
@@ -133,11 +114,10 @@ class TranslateViewModel @Inject constructor(
                     clearTranslate()
                 } else if (error is DownloadInProgressException) {
                     internetConnectionError.postValue(false)
-                    translate.value = App.app.resources.getString(R.string.download_in_progress_error)
-                }
-                else {
+                    translate.value = resourcesProvider.getString(R.string.download_in_progress_error)
+                } else {
                     internetConnectionError.postValue(false)
-                    showErrorDialog(error)
+                    _showErrorDialog.value = error
                 }
             }
         }
@@ -170,8 +150,8 @@ class TranslateViewModel @Inject constructor(
                 getTranslatesUseCase.addTranslate(
                     textSource,
                     translate,
-                    _languageSource.value ?: return@launch,
-                    _languageTarget.value ?: return@launch,
+                    languageSource.value ?: return@launch,
+                    languageTarget.value ?: return@launch,
                 )
             } catch (throwable: Throwable) {
                 throwable.printStackTrace()

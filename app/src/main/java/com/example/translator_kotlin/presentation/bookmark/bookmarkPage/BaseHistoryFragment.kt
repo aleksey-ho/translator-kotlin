@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.translator_kotlin.databinding.FragmentHistoryPageBinding
 import com.example.translator_kotlin.domain.model.Translate
 import com.example.translator_kotlin.presentation.MainListenerModule
 import com.example.translator_kotlin.presentation.base.BaseFragment
 import com.example.translator_kotlin.presentation.bookmark.BookmarkViewModel
-import kotlinx.coroutines.launch
 
 abstract class BaseHistoryFragment : BaseFragment<FragmentHistoryPageBinding>(), BookmarkListener {
 
@@ -22,16 +20,6 @@ abstract class BaseHistoryFragment : BaseFragment<FragmentHistoryPageBinding>(),
     val viewModel: BookmarkViewModel by activityViewModels()
 
     lateinit var bookmarkRecyclerAdapter: BookmarkRecyclerAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val root = super.onCreateView(inflater, container, savedInstanceState)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        return root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,23 +34,11 @@ abstract class BaseHistoryFragment : BaseFragment<FragmentHistoryPageBinding>(),
     }
 
     override fun saveAsFavorite(translate: Translate) {
-        lifecycleScope.launch {
-            try {
-                viewModel.saveAsFavorite(translate)
-            } catch (throwable: Throwable) {
-                throwable.printStackTrace()
-            }
-        }
+        viewModel.saveAsFavorite(translate)
     }
 
     override fun removeFromFavorites(translate: Translate) {
-        lifecycleScope.launch {
-            try {
-                viewModel.removeFromFavorites(translate)
-            } catch (throwable: Throwable) {
-                throwable.printStackTrace()
-            }
-        }
+        viewModel.removeFromFavorites(translate)
     }
 
     override fun openTranslate(translate: Translate) {
