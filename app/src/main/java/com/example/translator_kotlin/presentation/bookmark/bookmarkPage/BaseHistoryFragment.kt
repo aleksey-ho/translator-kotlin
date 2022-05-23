@@ -5,14 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.translator_kotlin.databinding.FragmentHistoryPageBinding
 import com.example.translator_kotlin.domain.model.Translate
-import com.example.translator_kotlin.presentation.MainListenerModule
+import com.example.translator_kotlin.presentation.MainRouter
 import com.example.translator_kotlin.presentation.base.BaseFragment
 import com.example.translator_kotlin.presentation.bookmark.BookmarkViewModel
+import kotlinx.coroutines.launch
 
-abstract class BaseHistoryFragment : BaseFragment<FragmentHistoryPageBinding>(), BookmarkListener {
+abstract class BaseHistoryFragment(
+) : BaseFragment<FragmentHistoryPageBinding>(), BookmarkListener {
+
+    abstract var mainRouter: MainRouter
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHistoryPageBinding =
         FragmentHistoryPageBinding::inflate
@@ -42,7 +47,13 @@ abstract class BaseHistoryFragment : BaseFragment<FragmentHistoryPageBinding>(),
     }
 
     override fun openTranslate(translate: Translate) {
-        MainListenerModule.getInstance().openTranslate(translate)
+        lifecycleScope.launch {
+            try {
+                mainRouter.openTranslate(translate)
+            } catch (throwable: Throwable) {
+                throwable.printStackTrace()
+            }
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.translator_kotlin.presentation.translate
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -12,7 +13,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import com.example.translator_kotlin.R
 import com.example.translator_kotlin.data.LangDirection
 import com.example.translator_kotlin.databinding.FragmentTranslateBinding
@@ -22,14 +26,13 @@ import com.example.translator_kotlin.domain.model.Translate
 import com.example.translator_kotlin.presentation.base.BaseFragment
 import com.example.translator_kotlin.presentation.dialog.Dialog
 import com.example.translator_kotlin.presentation.langSelector.LangSelectionActivity
-import com.example.translator_kotlin.presentation.langSelector.LangSelectionListenerModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
-class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
-    LangSelectionListenerModel.LangSelectionListener {
+class TranslateFragment : BaseFragment<FragmentTranslateBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTranslateBinding =
         FragmentTranslateBinding::inflate
@@ -52,13 +55,19 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
         savedInstanceState?.getString(TEXT_SOURCE)?.let { viewModel.setSourceText(it) }
         savedInstanceState?.getString(TEXT_TRANSLATE)?.let { viewModel.setTranslate(it) }
         binding.textViewLangSource.setOnClickListener {
-            requireContext().startActivity(
-                LangSelectionActivity.newIntent(requireContext(), LangDirection.SOURCE)
+            startForResult.launch(
+                LangSelectionActivity.newIntent(
+                    requireContext(),
+                    LangDirection.SOURCE
+                )
             )
         }
         binding.textViewLangTarget.setOnClickListener {
-            requireContext().startActivity(
-                LangSelectionActivity.newIntent(requireContext(), LangDirection.TARGET)
+            startForResult.launch(
+                LangSelectionActivity.newIntent(
+                    requireContext(),
+                    LangDirection.TARGET
+                )
             )
         }
         binding.buttonTryAgain.setOnClickListener {
@@ -122,9 +131,6 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
                 }
             }
         }
-        viewModel.textSource.observe(viewLifecycleOwner) {
-            textInputPanelBinding.editTextToTranslate.setText(it)
-        }
         viewModel.translate.observe(viewLifecycleOwner) {
             binding.textViewTranslate.text = it
         }
@@ -143,13 +149,19 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
         }
     }
 
-    override fun langSelected(language: Language, direction: LangDirection) {
-        if (direction == LangDirection.SOURCE)
-            viewModel.setLanguageSource(language)
-        else
-            viewModel.setLanguageTarget(language)
-        viewModel.downloadLanguageModel(language)
-        viewModel.translateText(textInputPanelBinding.editTextToTranslate.text.toString())
+    private val startForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val language = result.data?.getParcelableExtra<Language>(EXTRA_ITEM) ?: return@registerForActivityResult
+            val direction = result.data?.getSerializableExtra(EXTRA_DIRECTION) ?: return@registerForActivityResult
+            if (direction == LangDirection.SOURCE)
+                viewModel.setLanguageSource(language)
+            else
+                viewModel.setLanguageTarget(language)
+            viewModel.downloadLanguageModel(language)
+            viewModel.translateText(textInputPanelBinding.editTextToTranslate.text.toString())
+        }
     }
 
     fun saveTranslate() {
@@ -161,6 +173,7 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
         viewModel.setLanguageTarget(translate.languageTarget)
         viewModel.setSourceText(translate.textSource)
         viewModel.setTranslate(translate.textTarget)
+        textInputPanelBinding.editTextToTranslate.setText(translate.textSource)
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
@@ -179,6 +192,9 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>(),
     companion object {
         const val TEXT_SOURCE = "TEXT_SOURCE"
         const val TEXT_TRANSLATE = "TEXT_TRANSLATE"
+        const val EXTRA_ITEM = "EXTRA_ITEM"
+        const val EXTRA_DIRECTION = "EXTRA_DIRECTION"
+
         fun newInstance(): TranslateFragment {
             return TranslateFragment()
         }

@@ -15,13 +15,17 @@ import com.example.translator_kotlin.presentation.base.BaseActivity
 import com.example.translator_kotlin.presentation.dialog.Dialog
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(), MainListenerModule.MainListener {
+class MainActivity : BaseActivity<ActivityMainBinding>(), MainRouter.Listener {
 
     override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = ActivityMainBinding::inflate
     private lateinit var adapter: MainViewPageAdapter
     private val mainViewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var router: MainRouter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +47,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), MainListenerModule.Mai
 
         binding.viewPager.isUserInputEnabled = false
 
-        mainViewModel.showInitDialog()
+        if (mainViewModel.getShowInitDialog()) {
+            Dialog().showInitDialog(
+                this,
+                onButtonClick = {
+                    mainViewModel.downloadLanguageModels()
+                }
+            )
+        }
+
+        router.listener = this
     }
 
     override fun openTranslate(translate: Translate) {

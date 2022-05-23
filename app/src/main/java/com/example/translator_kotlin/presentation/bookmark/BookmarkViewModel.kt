@@ -1,7 +1,6 @@
 package com.example.translator_kotlin.presentation.bookmark
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.translator_kotlin.domain.model.Translate
 import com.example.translator_kotlin.domain.usecase.GetTranslatesUseCase

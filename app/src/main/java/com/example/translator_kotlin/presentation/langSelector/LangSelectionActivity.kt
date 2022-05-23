@@ -12,6 +12,8 @@ import com.example.translator_kotlin.data.LangDirection
 import com.example.translator_kotlin.databinding.ActivityLangSelectionBinding
 import com.example.translator_kotlin.domain.model.Language
 import com.example.translator_kotlin.presentation.base.BaseActivity
+import com.example.translator_kotlin.presentation.translate.TranslateFragment.Companion.EXTRA_DIRECTION
+import com.example.translator_kotlin.presentation.translate.TranslateFragment.Companion.EXTRA_ITEM
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -69,9 +71,12 @@ class LangSelectionActivity : BaseActivity<ActivityLangSelectionBinding>() {
             binding.listViewLanguages.setOnItemClickListener { parent, _, position, _ ->
                 val item = parent.adapter.getItem(position)
                 if (item is Language) {
-                    LangSelectionListenerModel.getInstance().langSelected(item, direction)
                     try {
                         viewModel.updateLanguageUsage(item, direction)
+                        val data = Intent()
+                        data.putExtra(EXTRA_ITEM, item)
+                        data.putExtra(EXTRA_DIRECTION, direction)
+                        setResult(RESULT_OK, data)
                         finish()
                     } catch (e: Throwable) {
                         e.printStackTrace()
