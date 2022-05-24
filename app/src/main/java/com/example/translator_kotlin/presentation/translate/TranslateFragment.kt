@@ -154,13 +154,8 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>() {
     ) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
             val language = result.data?.getParcelableExtra<Language>(EXTRA_ITEM) ?: return@registerForActivityResult
-            val direction = result.data?.getSerializableExtra(EXTRA_DIRECTION) ?: return@registerForActivityResult
-            if (direction == LangDirection.SOURCE)
-                viewModel.setLanguageSource(language)
-            else
-                viewModel.setLanguageTarget(language)
-            viewModel.downloadLanguageModel(language)
-            viewModel.translateText(textInputPanelBinding.editTextToTranslate.text.toString())
+            val direction = result.data?.getIntExtra(EXTRA_DIRECTION, 0) ?: return@registerForActivityResult
+            viewModel.langSelected(language, LangDirection.values()[direction])
         }
     }
 
@@ -168,11 +163,8 @@ class TranslateFragment : BaseFragment<FragmentTranslateBinding>() {
         viewModel.saveTranslate()
     }
 
-    fun setTranslate(translate: Translate) {
-        viewModel.setLanguageSource(translate.languageSource)
-        viewModel.setLanguageTarget(translate.languageTarget)
-        viewModel.setSourceText(translate.textSource)
-        viewModel.setTranslate(translate.textTarget)
+    fun openTranslate(translate: Translate) {
+        viewModel.openTranslate(translate)
         textInputPanelBinding.editTextToTranslate.setText(translate.textSource)
     }
 

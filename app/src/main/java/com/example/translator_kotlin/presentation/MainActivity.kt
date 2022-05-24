@@ -61,7 +61,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), MainRouter.Listener {
 
     override fun openTranslate(translate: Translate) {
         binding.viewPager.setCurrentItem(0, true)
-        adapter.translateFragment.setTranslate(translate)
+        adapter.translateFragment.openTranslate(translate)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

@@ -75,7 +75,7 @@ class LangSelectionActivity : BaseActivity<ActivityLangSelectionBinding>() {
                         viewModel.updateLanguageUsage(item, direction)
                         val data = Intent()
                         data.putExtra(EXTRA_ITEM, item)
-                        data.putExtra(EXTRA_DIRECTION, direction)
+                        data.putExtra(EXTRA_DIRECTION, direction.value)
                         setResult(RESULT_OK, data)
                         finish()
                     } catch (e: Throwable) {

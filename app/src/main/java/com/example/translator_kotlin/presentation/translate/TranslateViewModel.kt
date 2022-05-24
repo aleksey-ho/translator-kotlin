@@ -1,20 +1,18 @@
 package com.example.translator_kotlin.presentation.translate
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.translator_kotlin.App
 import com.example.translator_kotlin.R
 import com.example.translator_kotlin.data.LangDirection
 import com.example.translator_kotlin.domain.model.Language
+import com.example.translator_kotlin.domain.model.Translate
 import com.example.translator_kotlin.domain.usecase.DownloadLanguageModelUseCase
 import com.example.translator_kotlin.domain.usecase.GetLanguagesUseCase
 import com.example.translator_kotlin.domain.usecase.GetTranslatesUseCase
 import com.example.translator_kotlin.utils.DownloadInProgressException
 import com.example.translator_kotlin.utils.ResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -159,7 +157,7 @@ class TranslateViewModel @Inject constructor(
         }
     }
 
-    fun downloadLanguageModel(language: Language) {
+    private fun downloadLanguageModel(language: Language) {
         viewModelScope.launch {
             try {
                 downloadLanguageModelUseCase.downloadLanguageModel(language)
@@ -168,6 +166,21 @@ class TranslateViewModel @Inject constructor(
                 throwable.printStackTrace()
             }
         }
+    }
+
+    fun openTranslate(translate: Translate) {
+        setLanguageSource(translate.languageSource)
+        setLanguageTarget(translate.languageTarget)
+        setSourceText(translate.textSource)
+        setTranslate(translate.textTarget)
+    }
+
+    fun langSelected(language: Language, direction: LangDirection) {
+        if (direction == LangDirection.SOURCE)
+            setLanguageSource(language)
+        else
+            setLanguageTarget(language)
+        downloadLanguageModel(language)
     }
 
 }
