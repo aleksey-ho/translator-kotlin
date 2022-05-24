@@ -4,7 +4,6 @@ A simple text translation app based on the Google ML Kit created for research pu
 **Android Architecture Components:**
 * [Lifecycles](https://developer.android.com/topic/libraries/architecture/lifecycle)
 * [View Binding](https://developer.android.com/topic/libraries/view-binding)
-* [Data Binding Library](https://developer.android.com/topic/libraries/data-binding)
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 * [Room persistence library](https://developer.android.com/training/data-storage/room)
