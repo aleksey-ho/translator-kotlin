@@ -6,17 +6,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.translator_kotlin.R
-import com.example.translator_kotlin.presentation.MainRouter
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class HistoryFragment : BaseHistoryFragment() {
-
-    @Inject
-    override lateinit var mainRouter: MainRouter
+class HistoryFragment: BaseHistoryFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

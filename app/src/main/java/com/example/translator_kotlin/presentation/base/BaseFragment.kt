@@ -4,14 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.IntegerRes
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import org.koin.androidx.scope.ScopeFragment
 
-abstract class BaseFragment<VB : ViewBinding> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding> : ScopeFragment() {
 
     private var _binding: ViewBinding? = null
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB

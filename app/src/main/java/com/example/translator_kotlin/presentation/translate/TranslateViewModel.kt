@@ -12,15 +12,12 @@ import com.example.translator_kotlin.domain.usecase.GetLanguagesUseCase
 import com.example.translator_kotlin.domain.usecase.GetTranslatesUseCase
 import com.example.translator_kotlin.utils.DownloadInProgressException
 import com.example.translator_kotlin.utils.ResourcesProvider
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
-import javax.inject.Inject
 
-@HiltViewModel
-class TranslateViewModel @Inject constructor(
+class TranslateViewModel public constructor(
     private var getTranslatesUseCase: GetTranslatesUseCase,
     private var getLanguagesUseCase: GetLanguagesUseCase,
     private var downloadLanguageModelUseCase: DownloadLanguageModelUseCase,

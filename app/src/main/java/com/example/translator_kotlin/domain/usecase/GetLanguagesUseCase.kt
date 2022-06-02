@@ -3,9 +3,8 @@ package com.example.translator_kotlin.domain.usecase
 import com.example.translator_kotlin.data.LangDirection
 import com.example.translator_kotlin.domain.model.Language
 import com.example.translator_kotlin.domain.repository.Repository
-import javax.inject.Inject
 
-class GetLanguagesUseCase @Inject constructor(
+class GetLanguagesUseCase constructor(
     private val repository: Repository
 ) {
 

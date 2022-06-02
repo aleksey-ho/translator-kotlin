@@ -5,13 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.translator_kotlin.data.LangDirection
 import com.example.translator_kotlin.domain.model.Language
 import com.example.translator_kotlin.domain.usecase.GetLanguagesUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class LangSelectionViewModel @Inject constructor(
+class LangSelectionViewModel constructor(
     private var getLanguagesUseCase: GetLanguagesUseCase
 ) : ViewModel() {
 

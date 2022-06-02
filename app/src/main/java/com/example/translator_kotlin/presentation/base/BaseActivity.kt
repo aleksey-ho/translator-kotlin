@@ -2,15 +2,11 @@ package com.example.translator_kotlin.presentation.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.IntegerRes
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import org.koin.androidx.scope.ScopeActivity
 
 
-abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding> : ScopeActivity() {
 
     private var _binding: ViewBinding? = null
     abstract val bindingInflater: (LayoutInflater) -> VB

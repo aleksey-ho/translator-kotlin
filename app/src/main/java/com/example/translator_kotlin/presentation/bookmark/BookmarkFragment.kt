@@ -4,21 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import com.example.translator_kotlin.R
 import com.example.translator_kotlin.databinding.FragmentBookmarkBinding
 import com.example.translator_kotlin.presentation.base.BaseFragment
 import com.example.translator_kotlin.presentation.dialog.Dialog
 import com.google.android.material.tabs.TabLayoutMediator
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentBookmarkBinding =
         FragmentBookmarkBinding::inflate
 
-    private val viewModel: BookmarkViewModel by activityViewModels()
+    private val viewModel: BookmarkViewModel by viewModel()
 
     private lateinit var adapter: BookmarkViewPageAdapter
 

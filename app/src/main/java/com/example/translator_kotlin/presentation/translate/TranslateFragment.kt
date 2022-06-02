@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import com.example.translator_kotlin.R
 import com.example.translator_kotlin.data.LangDirection
@@ -26,19 +25,18 @@ import com.example.translator_kotlin.domain.model.Translate
 import com.example.translator_kotlin.presentation.base.BaseFragment
 import com.example.translator_kotlin.presentation.dialog.Dialog
 import com.example.translator_kotlin.presentation.langSelector.LangSelectionActivity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-@AndroidEntryPoint
 class TranslateFragment : BaseFragment<FragmentTranslateBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTranslateBinding =
         FragmentTranslateBinding::inflate
     private lateinit var textInputPanelBinding: TextInputPanelBinding
 
-    private val viewModel: TranslateViewModel by viewModels()
+    private val viewModel: TranslateViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

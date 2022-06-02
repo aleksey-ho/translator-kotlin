@@ -7,25 +7,22 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.activity.viewModels
 import com.example.translator_kotlin.R
 import com.example.translator_kotlin.databinding.ActivityMainBinding
 import com.example.translator_kotlin.domain.model.Translate
 import com.example.translator_kotlin.presentation.base.BaseActivity
 import com.example.translator_kotlin.presentation.dialog.Dialog
 import com.google.android.material.tabs.TabLayoutMediator
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(), MainRouter.Listener {
 
-    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = ActivityMainBinding::inflate
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding =
+        ActivityMainBinding::inflate
     private lateinit var adapter: MainViewPageAdapter
-    private val mainViewModel: MainViewModel by viewModels()
-
-    @Inject
-    lateinit var router: MainRouter
+    private val mainViewModel: MainViewModel by viewModel()
+    val router: MainRouter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

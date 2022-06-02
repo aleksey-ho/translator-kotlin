@@ -2,9 +2,8 @@ package com.example.translator_kotlin.domain.usecase
 
 import com.example.translator_kotlin.domain.model.Language
 import com.example.translator_kotlin.domain.repository.Repository
-import javax.inject.Inject
 
-class DownloadLanguageModelUseCase @Inject constructor(
+class DownloadLanguageModelUseCase constructor(
     private val repository: Repository
 ) {
 

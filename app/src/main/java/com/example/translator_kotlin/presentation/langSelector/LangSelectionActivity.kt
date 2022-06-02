@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.translator_kotlin.R
 import com.example.translator_kotlin.data.LangDirection
@@ -14,16 +13,15 @@ import com.example.translator_kotlin.domain.model.Language
 import com.example.translator_kotlin.presentation.base.BaseActivity
 import com.example.translator_kotlin.presentation.translate.TranslateFragment.Companion.EXTRA_DIRECTION
 import com.example.translator_kotlin.presentation.translate.TranslateFragment.Companion.EXTRA_ITEM
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class LangSelectionActivity : BaseActivity<ActivityLangSelectionBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityLangSelectionBinding =
         ActivityLangSelectionBinding::inflate
 
-    private val viewModel: LangSelectionViewModel by viewModels()
+    private val viewModel: LangSelectionViewModel by viewModel()
 
     private lateinit var direction: LangDirection
 

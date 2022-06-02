@@ -5,12 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.translator_kotlin.domain.usecase.DownloadLanguageModelUseCase
 import com.example.translator_kotlin.utils.SharedPreferenceHelper
 import com.example.translator_kotlin.utils.SharedPreferenceHelper.Companion.DATA_USAGE_WARNING
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MainViewModel @Inject constructor(
+class MainViewModel constructor(
     private var downloadLanguageModelUseCase: DownloadLanguageModelUseCase,
     private var sharedPreferenceHelper: SharedPreferenceHelper
 ) : ViewModel() {

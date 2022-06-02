@@ -2,11 +2,9 @@ package com.example.translator_kotlin.utils
 
 import android.content.Context
 import com.example.translator_kotlin.App
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
-class SharedPreferenceHelper @Inject constructor(
-    @ApplicationContext val context: Context
+class SharedPreferenceHelper constructor(
+    val context: Context
 ) {
 
     fun saveBoolean(Key: String, value: Boolean) {

@@ -1,11 +1,8 @@
 package com.example.translator_kotlin.presentation
 
 import com.example.translator_kotlin.domain.model.Translate
-import dagger.hilt.android.scopes.ActivityScoped
-import javax.inject.Inject
 
-@ActivityScoped
-class MainRouter @Inject constructor() {
+class MainRouter {
 
     var listener: Listener? = null
 

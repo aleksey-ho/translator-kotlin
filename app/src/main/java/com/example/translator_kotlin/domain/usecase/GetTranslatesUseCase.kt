@@ -6,9 +6,8 @@ import com.example.translator_kotlin.domain.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class GetTranslatesUseCase @Inject constructor(
+class GetTranslatesUseCase constructor(
     private val repository: Repository
 ) {
 
